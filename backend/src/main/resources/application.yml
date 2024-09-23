@@ -1,0 +1,37 @@
+#?? ??
+spring:
+  profiles:
+    default: local
+  datasource:
+    url: ${dbUrl}
+    username: ${dbUsername}
+    password: ${dbPassword}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  data:
+    redis:
+      host: ${redisHost}
+      port: 6379
+
+
+server:
+  port: 8080
+
+
+logging:
+  level:
+    org.springframework.cache : trace
+
+---
+#?? ??
+spring:
+  config:
+    activate:
+      on-profile : prod
+    datasource:
+      #url: jdbc:mysql://:3306/mydb #rds endpoint
+      username: admin
+      password: qwer123
