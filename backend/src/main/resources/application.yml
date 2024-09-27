@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    default: local
+  jpa:
+    hibernate:
+      dialect: org.hibernate.dialect.MySQLDialect
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://my-db:3306/mydb
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: my-cache-server #redis #localhost #${EC2_public_IPv4_address}
+      port: 6379
+
+
+server:
+  port: 8080
+
+
+logging:
+  level:
+    org.springframework.cache : trace
+
+---
+spring:
+  config:
+    activate:
+      on-profile : dev
