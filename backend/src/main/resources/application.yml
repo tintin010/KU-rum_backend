@@ -5,11 +5,11 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
 
   datasource:
-    url: jdbc:mysql://localhost:3306/mydb #my-db
+    url: jdbc:mysql://localhost:3306/kurum #my-db
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
