@@ -20,5 +20,4 @@ public class ReservationController {
     public BaseResponse<String> crawlReservationPage(@RequestBody @Valid WeinLoginRequest weinLoginRequest) {
         return reservationService.crawlReservationPage(weinLoginRequest);
     }
-
 }
