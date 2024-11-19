@@ -1,21 +1,9 @@
 package ku_rum.backend.domain.reservation.application;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import jakarta.validation.Valid;
-import ku_rum.backend.domain.reservation.dto.ReservationStatus;
-import ku_rum.backend.domain.user.application.UserService;
 import ku_rum.backend.domain.user.dto.request.WeinLoginRequest;
-import ku_rum.backend.domain.user.dto.response.WeinLoginResponse;
 import ku_rum.backend.global.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.hc.client5.http.cookie.BasicCookieStore;
-import org.apache.hc.client5.http.cookie.Cookie;
-import org.apache.hc.client5.http.impl.DefaultRedirectStrategy;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -25,16 +13,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 
 import org.jsoup.nodes.Document;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
 import java.util.*;
@@ -50,7 +35,7 @@ public class ReservationService {
         try {
             // 로그인 페이지 접근
             driver.get("https://wein.konkuk.ac.kr/common/user/login.do");
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
 
             // 로그인 수행
             if (!performLogin(driver, weinLoginRequest)) {

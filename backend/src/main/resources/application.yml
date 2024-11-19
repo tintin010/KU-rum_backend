@@ -3,22 +3,32 @@ spring:
     default: local
   jpa:
     hibernate:
-      dialect: org.hibernate.dialect.MySQLDialect
+      dialect: org.hibernate.dialect.H2Dialect
       ddl-auto: update
     show-sql: true
   datasource:
-    url: ${dbUrl}
-    username: ${dbUsername}
-    password: ${dbPassword}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
   data:
     redis:
       host: my-cache-server #redis #localhost #${EC2_public_IPv4_address}
       port: 6379
-
+  mail:
+    host: ${SPRING_MAIL_HOST:smtp.gmail.com} # 기본값으로 smtp.gmail.com 사용
+    port: 587
+    username: ${SPRING_MAIL_USERNAME:your-email@gmail.com} # 기본 이메일 설정
+    password: ${SPRING_MAIL_PASSWORD:your-email-password} # 기본 비밀번호 설정
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
-  port: 8080
+  port: 8088
 
 
 logging:
