@@ -36,6 +36,12 @@ logging:
   level:
     org.springframework.cache : trace
 
+openai:
+  model: gpt-3.5-turbo
+  api:
+    key: ${api_key}
+    url: ${api_endpoint}
+
 ---
 spring:
   config:
