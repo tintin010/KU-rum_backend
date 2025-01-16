@@ -59,4 +59,11 @@ public class User extends BaseEntity {
                 .department(department)
                 .build();
     }
+
+    public static User of(String email, String nickname) {
+        return User.builder()
+                .email(email)
+                .nickname(nickname)
+                .build();
+    }
 }
