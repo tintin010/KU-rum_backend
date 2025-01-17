@@ -57,11 +57,11 @@ spring:
 #            scope: email, profile
 
           naver:
-            client-id: 4AwsOF51O7bNbwMVynmc
-            client-secret: vanmTu4G37
+            client-id: UdHFWtLY6862NNPmP8Jz
+            client-secret: ui9Uu0Wr2n
             redirect-uri: http://localhost:9000/login/oauth2/code/naver
             authorization-grant-type: authorization_code
-            client-name: Naver
+            client-name: naver
             scope: name, email
 
 #          kakao:

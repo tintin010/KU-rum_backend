@@ -1,5 +1,8 @@
 package ku_rum.backend.domain.oauth.domain;
 
+import lombok.Getter;
+
+@Getter
 public class UserProfile {
     private final String oauthId; // OAuth 고유 ID
     private final String email;   // 이메일
@@ -9,11 +12,4 @@ public class UserProfile {
         this.email = email;
     }
 
-    public String getOauthId() {
-        return oauthId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 }

@@ -5,7 +5,6 @@ import ku_rum.backend.domain.user.domain.repository.UserRepository;
 import ku_rum.backend.global.security.jwt.CustomUserDetails;
 import ku_rum.backend.global.security.jwt.JwtTokenAuthenticationFilter;
 import ku_rum.backend.global.security.jwt.JwtTokenProvider;
-import ku_rum.backend.domain.oauth.application.OAuth2Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
