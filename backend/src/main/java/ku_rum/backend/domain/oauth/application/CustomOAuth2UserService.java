@@ -1,7 +1,6 @@
 package ku_rum.backend.domain.oauth.application;
 
 import ku_rum.backend.domain.oauth.domain.OAuthAttributes;
-import ku_rum.backend.domain.oauth.domain.UserProfile;
 import ku_rum.backend.domain.oauth.util.TokenValidator;
 import ku_rum.backend.domain.user.domain.User;
 import ku_rum.backend.domain.user.domain.repository.UserRepository;
