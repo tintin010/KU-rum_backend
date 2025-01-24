@@ -51,10 +51,10 @@ spring:
     oauth2:
       client:
         registration:
-#          google:
-#            client-id: 구글 클라이언트 키
-#            client-secret: 구글 클라이언트 비밀번호
-#            scope: email, profile
+          google:
+            client-id: 496376574351-6l9trcrkacm83pn7sjiog3ss8keefifd.apps.googleusercontent.com
+            client-secret: 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
+            scope: email, profile
 
           naver:
             client-id: UdHFWtLY6862NNPmP8Jz
