@@ -87,22 +87,21 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         logAuthenticatedUserInfo();
 
-        // TokenResponse를 통해 Access Token만 가져옴
-        TokenResponse tokenResponse = jwtTokenProvider.createToken(authentication);
-        String accessToken = tokenResponse.accessToken(); // Access Token만 추출
-
-        // Access Token 디코딩 및 로그 출력
-        try {
-            Jws<Claims> jwsClaims = jwtTokenProvider.getClaimsFromToken(accessToken);
-            Claims claims = jwsClaims.getBody(); // Claims 추출
-            log.info("Access Token Claims: {}", claims);
-        } catch (Exception e) {
-            log.error("Failed to parse Access Token: {}", e.getMessage());
-        }
+//        // TokenResponse를 통해 Access Token만 가져옴
+//        TokenResponse tokenResponse = jwtTokenProvider.createToken(authentication);
+//        String accessToken = tokenResponse.accessToken(); // Access Token만 추출
+//        // Access Token 디코딩 및 로그 출력
+//        try {
+//            Jws<Claims> jwsClaims = jwtTokenProvider.getClaimsFromToken(accessToken);
+//            Claims claims = jwsClaims.getBody(); // Claims 추출
+//            log.info("Access Token Claims: {}", claims);
+//        } catch (Exception e) {
+//            log.error("Failed to parse Access Token: {}", e.getMessage());
+//        }
 
         // 사용자 정보와 Access Token 반환
         Map<String, Object> customAttributes = getCustomAttributes(registrationId, userNameAttributeName, attributes, userProfile);
-        customAttributes.put("accessToken", accessToken);
+//        customAttributes.put("accessToken", accessToken);
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
