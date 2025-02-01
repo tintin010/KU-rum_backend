@@ -16,12 +16,14 @@ import java.util.Collection;
 public class CustomUserDetails implements UserDetails {
     private Long userId;
     private String username;
+    private String email; // 이메일 추가
     private Collection<? extends GrantedAuthority> roles;
     private String password;
 
     private CustomUserDetails(Long userId, String username, Collection<? extends GrantedAuthority> role, String password) {
         this.userId = userId;
         this.username = username;
+        this.email = email;
         this.roles = role;
         this.password = password;
     }
@@ -30,13 +32,26 @@ public class CustomUserDetails implements UserDetails {
         return new CustomUserDetails(id, username, role, password);
     }
 
+    public static CustomUserDetails of(Long id, String username, String email, Collection<? extends GrantedAuthority> roles, String password) {
+        return new CustomUserDetails(id, username, email, roles, password);
+    }
+
     public static CustomUserDetails of(User user) {
         return new CustomUserDetails(
                 user.getId(),
-                user.getEmail(), // 이메일을 username으로 사용
+                user.getNickname(),            // 닉네임을 username으로 사용
+                user.getEmail(),               // email 필드에 저장
                 AuthorityUtils.createAuthorityList("ROLE_USER"),
                 user.getPassword()
         );
+    }
+
+    private CustomUserDetails(Long userId, String username, String email, Collection<? extends GrantedAuthority> roles, String password) {
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+        this.roles = roles;
+        this.password = password;
     }
 
     @Override

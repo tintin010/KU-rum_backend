@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -66,16 +67,25 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // 사용자 저장 또는 업데이트
         User user = updateOrPrepareUser(userProfile);
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                CustomUserDetails.of(
-                        user.getId(),
-                        userProfile.getUsername(),
-                        Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")),
-                        user.getPassword()
-                ),
-                null,
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
+        // ✅ 이메일 정보 추가
+        CustomUserDetails customUserDetails = CustomUserDetails.of(
+                user.getId(),
+                userProfile.getUsername(),
+                userProfile.getEmail(),  // ✅ 이메일 추가
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")),
+                user.getPassword()
         );
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                customUserDetails,
+                null,
+                customUserDetails.getAuthorities()
+        );
+
+        // SecurityContextHolder에 사용자 정보 저장
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        logAuthenticatedUserInfo();
 
         // TokenResponse를 통해 Access Token만 가져옴
         TokenResponse tokenResponse = jwtTokenProvider.createToken(authentication);
@@ -127,6 +137,20 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                     return user; // 저장 없이 반환
                 });
 //                .orElseGet(() -> userRepository.save(userProfile.toEntity()));
+    }
+
+    private void logAuthenticatedUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            log.info("현재 로그인한 사용자 ID: {}", userDetails.getUserId());
+            log.info("현재 로그인한 사용자 이름: {}", userDetails.getUsername());
+            log.info("현재 로그인한 사용자 이메일: {}", userDetails.getEmail());
+            log.info("현재 로그인한 사용자 권한: {}", userDetails.getAuthorities());
+        } else {
+            log.warn("현재 로그인한 사용자 정보가 없습니다.");
+        }
     }
 }
 
