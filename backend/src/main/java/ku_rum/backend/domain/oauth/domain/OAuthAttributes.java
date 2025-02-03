@@ -22,9 +22,24 @@ public enum OAuthAttributes {
     NAVER("naver", (attributes) -> {
         UserProfile userProfile = new UserProfile();
 
-        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
-        userProfile.setUserName((String) response.get("name"));
-        userProfile.setEmail((String) response.get("email"));
+//        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+
+//        if (response != null) {
+//            userProfile.setUserName((String) response.get("name"));
+//            userProfile.setEmail((String) response.get("email"));
+//            userProfile.setId((String) response.get("id"));  // OAuth 고유 ID
+//        } else {
+//            log.warn("Naver response is null: {}", attributes);
+//        }
+//        return userProfile;
+
+        if (attributes != null) {
+            userProfile.setUserName((String) attributes.get("name"));
+            userProfile.setEmail((String) attributes.get("email"));
+            userProfile.setId((String) attributes.get("id"));  // OAuth 고유 ID
+        } else {
+            log.warn("Naver response is null: {}", attributes);
+        }
         return userProfile;
     }),
 

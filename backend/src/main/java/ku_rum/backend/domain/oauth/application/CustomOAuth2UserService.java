@@ -33,22 +33,31 @@ import java.util.Map;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+//    private final JwtTokenProvider jwtTokenProvider;
 
-    public CustomOAuth2UserService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
+    public CustomOAuth2UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
-        OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
-        log.info("userRequest getClientRegistration : {}", userRequest.getClientRegistration());
-        OAuth2User oAuth2User = delegate.loadUser(userRequest);
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-        String registrationId = userRequest.getClientRegistration().getRegistrationId(); // 로그인을 수행한 서비스의 이름
+        OAuth2User oAuth2User;
+        if (registrationId.equals("naver")){
+            oAuth2User = new DefaultOAuth2UserServiceNaver().loadUser(userRequest);
+        } else {
+            oAuth2User = new DefaultOAuth2UserService().loadUser(userRequest);
+        }
+
+
+//        OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
+//        log.info("userRequest getClientRegistration : {}", userRequest.getClientRegistration());
+//        OAuth2User oAuth2User = delegate.loadUser(userRequest);
+
+//        String registrationId = userRequest.getClientRegistration().getRegistrationId(); // 로그인을 수행한 서비스의 이름
         String userNameAttributeName = userRequest
                 .getClientRegistration()
                 .getProviderDetails()
@@ -61,6 +70,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // Attributes 로깅
         Map<String, Object> attributes = oAuth2User.getAttributes();
         log.info("Attributes received: {}", attributes);
+
+//        if ("naver".equals(registrationId)) {
+//            attributes = (Map<String, Object>) attributes.get("response");
+//        }
 
         UserProfile userProfile = OAuthAttributes.extract(registrationId, attributes);
 
